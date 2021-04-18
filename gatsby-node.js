@@ -6,8 +6,8 @@ const _ = require("lodash");
 const crypto = require("crypto");
 const seedConstant = "2972963f-2fcf-4567-9237-c09a2b436541";
 
-exports.sourceNodes = async ({ boundActionCreators, getNode, store, cache }, { spreadsheetId, worksheetTitle, credentials }) => {
-  const { createNode } = boundActionCreators;
+exports.sourceNodes = async ({ actions, getNode, store, cache }, { spreadsheetId, worksheetTitle, credentials }) => {
+  const { createNode } = actions;
   console.log("FETCHING SHEET", fetchSheet);
   let rows = await fetchSheet(spreadsheetId, worksheetTitle, credentials);
 
