@@ -1,7 +1,8 @@
 const fetchSheet = require(`./fetch-sheet.js`).default;
-const uuidv5 = require("uuid/v5");
+const uuidv5 = require("uuid");
 const _ = require("lodash");
 const crypto = require("crypto");
+const { stringify } = require("flatted");
 const seedConstant = "2972963f-2fcf-4567-9237-c09a2b436541";
 
 exports.sourceNodes = async (
@@ -22,7 +23,7 @@ exports.sourceNodes = async (
           type: _.camelCase(`googleSheet ${worksheetTitle} row`),
           contentDigest: crypto
             .createHash("md5")
-            .update(JSON.stringify(r))
+            .update(stringify(r))
             .digest("hex")
         }
       })
