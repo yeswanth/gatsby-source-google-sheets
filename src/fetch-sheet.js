@@ -1,44 +1,32 @@
 // @flow
-const GoogleSpreadsheet = require("google-spreadsheet");
+const { GoogleSpreadsheet } = require("google-spreadsheet");
 const _ = require("lodash");
 
-const getSpreadsheet = (spreadsheetId, credentials) =>
-  new Promise((resolve, reject) => {
+const getSpreadsheet = async (spreadsheetId, credentials) =>
+  new Promise(async (resolve, reject) => {
     const doc = new GoogleSpreadsheet(spreadsheetId);
-    doc.useServiceAccountAuth(credentials, function(err) {
-      if (err) reject(err);
-      else resolve(doc);
-    });
+    await doc.useServiceAccountAuth(credentials);
+    await doc.loadInfo();
+    resolve(doc);
   });
 
 const getWorksheetByTitle = (spreadsheet, worksheetTitle) =>
-  new Promise((resolve, reject) =>
-    spreadsheet.getInfo((e, s) => {
-      if (e) reject(e);
-      const targetSheet = s.worksheets.find(sheet => sheet.title === worksheetTitle);
-      if (!targetSheet) {
-        reject(`Found no worksheet with the title ${worksheetTitle}`);
-      }
-      resolve(targetSheet);
-    })
-  );
+  new Promise(async (resolve, reject) => {
+    const workSheet = await spreadsheet.sheetsByTitle[worksheetTitle];
+    resolve(workSheet);
+  });
 
 const getRows = (worksheet, options = {}) =>
-  new Promise((resolve, reject) =>
-    worksheet.getRows(options, (err, rows) => {
-      if (err) reject(err);
-      else {
-        resolve(rows);
-      }
-    })
-  );
+  new Promise((resolve, reject) => {
+    resolve(worksheet.getRows(options));
+  });
 
 const cleanRows = rows => {
   const columnTypes = guessColumnsDataTypes(rows);
   return rows.map(r =>
     _.chain(r)
-      .omit(["_xml", "app:edited", "save", "del", "_links"])
-      .mapKeys((v, k) => _.camelCase(k))
+      .omit(["_xml", "app:edited", "save", "del", "_links", "_rowNumber", "_rawData", "_sheet"])
+      .mapKeys((v, k) => _.toLower(_.camelCase(k)))
       .mapValues((val, key) => {
         switch (columnTypes[key]) {
           case "number":
@@ -57,8 +45,8 @@ const cleanRows = rows => {
 const guessColumnsDataTypes = rows =>
   _.flatMap(rows, r =>
     _.chain(r)
-      .omit(["_xml", "app:edited", "save", "del", "_links"])
-      .mapKeys((v, k) => _.camelCase(k))
+      .omit(["_xml", "app:edited", "save", "del", "_links", "_rowNumber", "_rawData", "_sheet"])
+      .mapKeys((v, k) => _.toLower(_.camelCase(k)))
       .mapValues(val => {
         // try to determine type based on the cell value
         if (!val) {
@@ -76,8 +64,10 @@ const guessColumnsDataTypes = rows =>
   ).reduce((columnTypes, row) => {
     _.forEach(row, (type, columnName) => {
       // skip nulls, they should have no effect
-      if (type === 'null') { return; }
-      
+      if (type === "null") {
+        return;
+      }
+
       const currentTypeCandidate = columnTypes[columnName];
       if (!currentTypeCandidate) {
         // no discovered type yet -> use the one from current item
@@ -88,7 +78,7 @@ const guessColumnsDataTypes = rows =>
       }
     });
     return columnTypes;
-  }, {})
+  }, {});
 
 const fetchData = async (spreadsheetId, worksheetTitle, credentials) => {
   const spreadsheet = await getSpreadsheet(spreadsheetId, credentials);
