@@ -4,7 +4,7 @@
     "description": "A source plugin for Gatsby that allows reading data from Google Sheets.",
     "main": "index.js",
     "scripts": {
-        "build": "babel src --out-dir .",
+        "prepare": "babel src --out-dir .",
         "watch": "babel -w src --out-dir .",
         "prepublish": "npm run prettify && cross-env NODE_ENV=production npm run build",
         "prettify": "prettier ./src/** --write",
