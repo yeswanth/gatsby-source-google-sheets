@@ -17,3 +17,6 @@ service-account.json
 !index.js
 yarn.lock
 scripts
+
+/fetch-sheet.js
+/gatsby-node.js
