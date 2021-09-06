@@ -8,7 +8,8 @@
         "watch": "babel -w src --out-dir .",
         "prepublish": "npm run prettify && cross-env NODE_ENV=production npm run build",
         "prettify": "prettier ./src/** --write",
-        "test": "jest src/__test__"
+        "test": "jest src/__test__",
+        "postinstall": "NODE_ENV=production npm run build"
     },
     "author": "Brandon Paquette <brandon@brandon.sh>",
     "keywords": [
