@@ -8,16 +8,22 @@ This source plugin for [Gatsby JS](https://github.com/gatsbyjs/gatsby) will turn
 
 ## Step 1: set up sheets/permissions
 
-1. Create a [Google Service Account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount) and download the credentials file.
-1. Open your google sheet, click "File > Share..." and enter your service account's e-mail address (you can find it in the credentials file).
+Note that if you are signed in to several accounts on Google, you need to make sure that you are using the correct account during the whole procedure below,
+especially if you open a new browser tab.
 
+1. If you haven't already, start by creating a [Google Cloud Project](https://console.cloud.google.com/).
+2. Enable [Google Sheets API](https://console.cloud.google.com/apis/api/sheets.googleapis.com). Make sure to do it for the **correct project**. 🙂
+3. Create a [Google Service Account](https://developers.google.com/identity/protocols/OAuth2ServiceAccount#creatinganaccount). Note that this account doesn't need
+any specific permission or roles since you will share the sheets explicitly.
+4. Download the credentials file (see how to use it below).
+5. Open your google sheet, click "File > Share..." and enter your service account's e-mail address (you can find it in the credentials file).
 
 ## Step 2: configure your gatsby project
 
 Standard source plugin installation.
 
 ```
-yarn add gatsby-source-google-sheets
+yarn add https://github.com/yeswanth/gatsby-source-google-sheets#[version-number]
 
 
 // gatsby-config.js
@@ -46,14 +52,10 @@ if (
 ```
 2. "TRUE"/"FALSE" converted to boolean true/false
 3. empty cells ("" in sheets payload) converted to null
-4. Column names are converted to camelcase via lodash _.camelCase() (see note 2 in 'A few notes')
+4. Google sheets mangles column names and converts them all to lower case
+5. Dates are recognized as dates
 
-
-A few notes:
-
-1. Not tested with cells of data type dates.
-2. Google sheets mangles column names and converts them all to lower case. This plugin will convert them to camelcase, so the best convention here is to name your columns all lowercase with dashes. e.g. instead of "Column Name 1" or "columnName1", prefer "column-name-1"--this last one will be turned into "columnName1" in your GatsbyQL graph. 
 
 # Troubleshooting
-3. If you get the error "No key or keyFile set", make sure you are using a Service Account API key and not a simple API key.
-4. If you get the error "Cannot read property 'worksheets' of undefined", make sure you have shared your spreadsheet with your service account user.
+1. If you get the error "No key or keyFile set", make sure you are using a Service Account API key and not a simple API key.
+2. If you get the error "Cannot read property 'worksheets' of undefined", make sure you have shared your spreadsheet with your service account user.
