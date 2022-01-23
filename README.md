@@ -2,7 +2,9 @@
 
 This is a fork of the now unmaintained [brandonmp/gatsby-source-google-sheets](https://github.com/brandonmp/gatsby-source-google-sheets/). We've [tried to get in touch](https://github.com/brandonmp/gatsby-source-google-sheets/issues/46) with the original author without success. Thanks @brandonmp for a great plugin.
 
-This fork fixes some problems with the original and unmaintained version, especially [TypeError: Cannot read property 'worksheets' of undefined #45](https://github.com/brandonmp/gatsby-source-google-sheets/issues/45). It also supports newer versions of Gatsby. We will actively maintained this plugin since we use it ourselves 🙂
+This fork fixes some problems with the original and unmaintained version, especially support for Sheets v4 API since the [v3 is deprecated](https://cloud.google.com/blog/products/g-suite/migrate-your-apps-use-latest-sheets-api). It also supports newer versions of Gatsby.
+
+We will actively maintained this plugin since we use it ourselves 🙂
 
 ## Why?
 
