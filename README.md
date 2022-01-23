@@ -48,6 +48,12 @@ yarn add https://github.com/yeswanth/gatsby-source-google-sheets#[version-number
 
 ```
 
+### Step 3: check out your new GraphQL data
+
+Go to your GraphQL page (`/___graphql`) and explore the new data node called `allGoogleSheet[worksheetTitle]Row`. The Explorer will help you build the GraphQL queries you need.
+
+## Datatypes
+
 The plugin makes the following conversions before feeding Gatsby nodes:
 1. Numbers are converted to numbers. Sheets formats numbers as comma-delineated strings, so to determine if something is a number, the plugin tests to see if the string (a) is non-empty and (b) is composed only of commas, decimals, and digits:
 ```
@@ -62,7 +68,6 @@ if (
 3. empty cells ("" in sheets payload) converted to null
 4. Google sheets mangles column names and converts them all to lower case
 5. Dates are recognized as dates
-
 
 ## Troubleshooting
 1. If you get the error "No key or keyFile set", make sure you are using a Service Account API key and not a simple API key.
