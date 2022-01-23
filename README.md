@@ -1,6 +1,10 @@
 # gatsby-source-google-sheets
 
-This is a fork of the now unmaintained [brandonmp/gatsby-source-google-sheets](https://github.com/brandonmp/gatsby-source-google-sheets/). We've [tried to get in touch](https://github.com/brandonmp/gatsby-source-google-sheets/issues/46) with the original author without success. Thanks @brandonmp for a great plugin. This fork fixes some problems with the unmaintained version, especially [TypeError: Cannot read property 'worksheets' of undefined #45](https://github.com/brandonmp/gatsby-source-google-sheets/issues/45).
+This is a fork of the now unmaintained [brandonmp/gatsby-source-google-sheets](https://github.com/brandonmp/gatsby-source-google-sheets/). We've [tried to get in touch](https://github.com/brandonmp/gatsby-source-google-sheets/issues/46) with the original author without success. Thanks @brandonmp for a great plugin.
+
+This fork fixes some problems with the original and unmaintained version, especially [TypeError: Cannot read property 'worksheets' of undefined #45](https://github.com/brandonmp/gatsby-source-google-sheets/issues/45). It also supports newer versions of Gatsby. We will actively maintained this plugin since we use it ourselves 🙂
+
+# Why?
 
 Why go through the hassle of setting up a complicated headless CMS when Google Sheets already has user permissions, revision history, and a powerful UI? 
 
