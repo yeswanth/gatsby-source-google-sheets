@@ -48,6 +48,19 @@ yarn add https://github.com/yeswanth/gatsby-source-google-sheets#[version-number
 
 ```
 
+#### Load credentials via environment variable
+
+You might want to load credentials via an environment variable instead, like this:
+
+```
+// .env
+GOOGLE_SHEETS_CREDENTIALS={"client_email": "the-client-email","private_key": "the-private-key"}
+```
+
+Then make sure to load dotenv on top of your `gatsby-config.js`. Since environment variables
+values are stored as strings, you need to parse the credentials value:
+`credentials: JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS)`
+
 ### Step 3: check out your new GraphQL data
 
 Go to your GraphQL page (`/___graphql`) and explore the new data node called `allGoogleSheet[worksheetTitle]Row`. The Explorer will help you build the GraphQL queries you need.
